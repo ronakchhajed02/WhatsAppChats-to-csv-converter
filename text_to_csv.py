@@ -1,21 +1,37 @@
 #This code will converts exported .txt file from whatsapp to .csv file.
 
 #Copy and paste your file path here inside double quotes.
-File_path = r""    
+# data file
+file = r""
+#copy of data file
+file_d = r""
+#new file where the result will be stored
+file_n = r""
 
-fw = open(File_path, "a", encoding='UTF-8')
+fw = open(file_n, "w", encoding='UTF-8')
 fw.seek(0)
 fw.truncate()
-fr = open(File_path, "r", encoding='UTF-8')
+fr = open(file, "r", encoding='UTF-8')
 
 while True:
     line = fr.readline()
-    if line == "":
+    if not line:
         break
     d=0
+
     if "joined using this group's invite link" in line:
         index = line.index("joined using this group's invite link")
         d=1
+    elif "was added" in line:
+        index = line.index("was added")
+        d=1
+    elif "was added" in line:
+        index = line.index("was added")
+        d=1
+    elif "joined from the community" in line:
+        index = line.index("joined from the community")
+        d=1
+    
     line = list(line)
 
     if (len(line) >= 10) and (line[2] == "/") and (line[5] == "/") and (line[10] == ","):
@@ -41,6 +57,7 @@ while True:
             j+=1
         line = "".join(line)
         if q == 1:
+            print(line)
             fw.write(line.replace('\n', ''))
     else:
         i=0
@@ -50,3 +67,6 @@ while True:
             i+=1
         line = "".join(line)
         fw.write(line.replace('\n', ''))
+    
+fr.close()
+fw.close()
